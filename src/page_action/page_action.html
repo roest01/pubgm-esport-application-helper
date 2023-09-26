@@ -12,6 +12,21 @@
 </style>
 
 <div id="mainPopup">
-<h1>Hello extensionizr!</h1>
-<p>To shut this popup down, edit the manifest file and remove the "default popup" key. To edit it, just edit ext/page_action/page_action.html. The CSS is there, too.</p>
+<h1>Give me EVENT JSON</h1>
+    <p>open the "Manage Schedule"</p>
+    <textarea name="json_input" id="json_input" cols="30" rows="5"></textarea>
+    <button id="submit">Create schedule</button>
 </div>
+
+<script type="text/javascript">
+    console.log("this is from page action");
+    jQuery(document).ready(function(){
+        console.log("doc ready from page action");
+        jQuery('.title').hide();
+        console.log("hidden");
+    });
+
+    jQuery('#submit').click((e) => {
+        console.log("click on page action");
+    })
+</script>

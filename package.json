@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "chromedriver": "^117.0.3",
+    "mocha": "^10.2.0",
+    "selenium-webdriver": "^4.13.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.1"
+  }
+}

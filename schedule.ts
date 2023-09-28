@@ -7,7 +7,7 @@ const globalWait = 1000;
 const initalMatchStartTime = "19:00";
 const timePerRound = 45;
 
-describe('Create GroupStage 1', function() {
+describe('Create Tournament schedule', function() {
     this.timeout(1200000)
     let driver
     let vars
@@ -18,7 +18,7 @@ describe('Create GroupStage 1', function() {
     afterEach(async function() {
         await driver.quit();
     })
-    it('Create GroupStage 1', async function() {
+    it('Create Tournament schedule', async function() {
         await driver.get("https://esports.pubgmobile.com/3rdparty/#/login")
         await driver.manage().window().setRect({ width: 2560, height: 1415 })
 
@@ -49,6 +49,8 @@ describe('Create GroupStage 1', function() {
                 console.log("create stage ", stageName);
                 await createStage(stageName);
                 createdStages.add(stageName); // Füge die Stage zum Set hinzu
+
+                await driver.sleep(5000);
 
                 for (let stageDayItem of event_json.items) {
                     if (stageDayItem.stage === stageName) {
@@ -88,9 +90,16 @@ describe('Create GroupStage 1', function() {
     })
 
     async function clickDropDown(contains, dropdown = ".el-select__caret"){
-        await driver.findElement(By.css(dropdown)).click();
+        let dropdownElement = await driver.findElement(By.css(dropdown));
+        await dropdownElement.click();
         await driver.sleep(globalWait);
-        const element = await driver.findElement(By.xpath("//li[contains(@class, 'el-select-dropdown__item')]//span[text()='"+contains+"']")).click();
+
+        await driver.switchTo().defaultContent();
+        await driver.actions().sendKeys(Key.UP).perform();
+
+        await driver.sleep(globalWait);
+        console.log("//li[contains(@class, 'el-select-dropdown__item')]//span[text()='"+contains+"']");
+        await driver.findElement(By.xpath("//li[contains(@class, 'el-select-dropdown__item')]//span[text()='"+contains+"']")).click();
     }
 
     async function fillInput(input, content){
@@ -118,7 +127,12 @@ describe('Create GroupStage 1', function() {
     }
 
     async function createMatch(stage, stageDay, matchName, map, matchDate, matchTime){
-        await driver.findElement(By.css(".match_box .el-icon-circle-plus-outline")).click() //add stage day button
+        try {
+            await driver.findElement(By.css(".match_box .el-icon-circle-plus-outline")).click() //add stage day button
+        } catch (e) {
+            console.log("der button MATCH HINZUFÜGEN konnte nicht gedrückt werden... bitte manuell drücken");
+            await driver.wait(until.elementLocated(By.className("stage_box")), 60000); // Warte maximal 60 Sekunden
+        }
         await driver.sleep(globalWait)
         await clickDropDown(stage)
         await driver.sleep(globalWait)
@@ -148,6 +162,6 @@ describe('Create GroupStage 1', function() {
         let input = await driver.findElement(By.css(".stage_box .el-input input"));
         fillInput(input,stageName)
         await driver.sleep(globalWait);
-        await clickSubmitButton();
+        //await clickSubmitButton();
     }
 })

@@ -8,6 +8,11 @@ Creating a tournament schedule on the PUBG Mobile application can be a tedious t
 - Import match data from a Google Sheet (json) automatically.
 - Automate the creation of stages, match days, and matches with specified details.
 
+## Sheet
+https://docs.google.com/spreadsheets/d/1dMlt2VVSkjqfE4elQ4pb8BnpsvIPWH6iSzQRFHCQJUE/edit#gid=1469393908
+
+Use this sheet to generate your json. Just make a copy of it.
+
 ## Usage
 
 To use this project, follow these steps:
